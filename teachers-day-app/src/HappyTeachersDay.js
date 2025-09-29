@@ -1,40 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-// --- NOTE: Update these paths to your actual image files ---
-import peerLogo from './assets/peer logo.jpg'; // Adjust path if needed
-import schoolLogo from './assets/tcc-logo.png'; // Adjust path if needed
+import peerLogo from './assets/peer logo.jpg'; 
+import schoolLogo from './assets/tcc-logo.png'; 
+import bgMusic from './assets/taylorswift.mp3';
+
+// Import your professor icon images
+import profIconLeft from './assets/prof1.jpg';
+import profIconRight from './assets/prof2.jpg';
 
 const HappyTeachersDay = () => {
-  // Main message, the spaces will be rendered as non-breaking spaces
   const message = "    Happy Teachers Day  Sir A";
   const subtitle = "From Peer Facilitators' Society";
-  
-  // State for animations
   const [lettersVisible, setLettersVisible] = useState(0);
   const [emoticonsVisible, setEmoticonsVisible] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
 
-  // Logo URLs
+  // Optional: Use a ref to control volume on mount
+  const audioRef = useRef(null); 
+
   const schoolLogoUrl = schoolLogo; 
   const orgLogoUrl = peerLogo;       
 
-  // Effect for the typing animation
   useEffect(() => {
     const timer = setTimeout(() => {
       if (lettersVisible < message.length) {
         setLettersVisible(lettersVisible + 1);
       } else {
-        // Once the message is complete
-        setLogoVisible(true); // Show logos
+        setLogoVisible(true);
         setTimeout(() => {
-          setEmoticonsVisible(true); // Show floating emoticons after logos
+          setEmoticonsVisible(true);
         }, 500); 
       }
-    }, 150); // Speed of letter-by-letter typing (150ms per letter)
+    }, 150); 
     return () => clearTimeout(timer);
   }, [lettersVisible, message.length]);
 
-  // Data for the subtle floating emoticons
+  // Set default volume (optional, can remove if not needed)
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2; // Set volume to 20%
+    }
+  }, []);
+
   const floatingEmoticons = [
     { icon: "📚", initialX: -50, initialY: -20 },
     { icon: "🍎", initialX: 50, initialY: -40 },
@@ -47,18 +54,38 @@ const HappyTeachersDay = () => {
   ];
 
   return (
-<div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">      
-      {/* --- Smoke/Gradient Effects --- */}
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Background music */}
+      <audio ref={audioRef} autoPlay loop>
+        <source src={bgMusic} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      {/* Professor icons row */}
+      <div className="flex flex-row justify-between items-center w-full max-w-xs mb-6 z-20 relative">
+        <img
+          src={profIconLeft}
+          alt="Professor Left"
+          className="w-16 h-16 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+        />
+        <div className="flex-1" /> {/* Spacer */}
+        <img
+          src={profIconRight}
+          alt="Professor Right"
+          className="w-16 h-16 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+        />
+      </div>
+
+      {/* Smoke effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/80 to-purple-400/80 rounded-full filter blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-gradient-to-l from-pink-400/80 to-yellow-400/80 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/3 right-1/3 w-56 h-56 bg-gradient-to-b from-green-400/80 to-blue-400/80 rounded-full filter blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      {/* --- Main Content Container --- */}
+      {/* Main content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto">
-        
-        {/* --- Logos with Fade-In Animation --- */}
+        {/* Two logos with fade-in animation */}
         {logoVisible && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.5 }}
@@ -67,27 +94,27 @@ const HappyTeachersDay = () => {
             className="mb-8 flex justify-center space-x-12"
           >
             {/* School Logo */}
-            <div className="w-24 h-24 rounded-full flex items-center justify-center shadow-xl border-4 border-white overflow-hidden bg-white">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center shadow-lg border-4 border-white overflow-hidden bg-white">
               <img 
                 src={schoolLogoUrl} 
                 alt="School Logo" 
-                className="object-contain w-full h-full p-1" // Added p-1 for slight internal padding
+                className="object-contain w-full h-full"
               />
             </div>
 
             {/* Organization Logo */}
-            <div className="w-24 h-24 rounded-full flex items-center justify-center shadow-xl border-4 border-white overflow-hidden bg-white">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center shadow-lg border-4 border-white overflow-hidden bg-white">
               <img 
                 src={orgLogoUrl} 
                 alt="Organization Logo" 
-                className="object-contain w-full h-full p-1"
+                className="object-contain w-full h-full"
               />
             </div>
           </motion.div>
         )}
         
-        {/* --- Main Message (Typewriter Effect) --- */}
-        <h1 className="whitespace-preline text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 font-serif text-blue-900 drop-shadow-lg">
+        {/* Main message with letter-by-letter animation */}
+        <h1 className="whitespace-preline text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-serif text-blue-900">
           {message.split('').map((letter, index) => (
             <motion.span
               key={index}
@@ -102,42 +129,41 @@ const HappyTeachersDay = () => {
               }}
               className="inline-block"
             >
-              {/* Render a non-breaking space for the space character */}
+              {/* This is a non-breaking space for the space character */}
               {letter === ' ' ? '\u00A0' : letter === '\n' ? <br /> : letter}
             </motion.span>
           ))}
         </h1>
 
-        {/* --- Subtitle --- */}
+        {/* Subtitle */}
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
-          // Delay calculates when the typing finishes + a little extra
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: message.length * 0.15 + 0.5, duration: 0.8 }}
-          className="text-xl md:text-2xl text-blue-700 mb-8 font-semibold italic"
+          className="text-xl md:text-2xl text-blue-700 mb-8 font-semibold"
         >
           {subtitle}
         </motion.p>
 
-        {/* --- Main Decorative Emoticons --- */}
+        {/* Decorative elements */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: message.length * 0.15 + 1, duration: 0.5 }}
-          className="flex justify-center space-x-6 mb-8"
+          className="flex justify-center space-x-4 mb-8"
         >
-          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-yellow-300 transform hover:scale-105 transition duration-300">
+          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-yellow-300">
             <span className="text-3xl">🍎</span>
           </div>
-          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-blue-300 transform hover:scale-105 transition duration-300">
+          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-blue-300">
             <span className="text-3xl">📚</span>
           </div>
-          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-green-300 transform hover:scale-105 transition duration-300">
+          <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-green-300">
             <span className="text-3xl">✏️</span>
           </div>
         </motion.div>
 
-        {/* --- Thank You Message --- */}
+        {/* Thank you message */}
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -148,7 +174,7 @@ const HappyTeachersDay = () => {
           Your guidance shapes futures and inspires greatness!
         </motion.p>
 
-        {/* --- Secondary Decorative Elements --- */}
+        {/* Additional decorative elements with fade-in */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -167,7 +193,7 @@ const HappyTeachersDay = () => {
         </motion.div>
       </div>
 
-      {/* --- Floating Emoticons Effect --- */}
+      {/* Floating emoticons */}
       {emoticonsVisible && (
         <div className="absolute inset-0 pointer-events-none">
           {floatingEmoticons.map((emoticon, index) => (
@@ -179,19 +205,17 @@ const HappyTeachersDay = () => {
                 y: emoticon.initialY
               }}
               animate={{ 
-                opacity: [0, 1, 0], // Fade in, stay visible, fade out
-                // Simple random float motion for a gentle float
-                x: [emoticon.initialX, emoticon.initialX + (Math.random() * 100 - 50), emoticon.initialX],
-                y: [emoticon.initialY, emoticon.initialY + (Math.random() * 100 - 50), emoticon.initialY]
+                opacity: [0, 1, 0],
+                x: [emoticon.initialX, emoticon.initialX + Math.random() * 100 - 50, emoticon.initialX],
+                y: [emoticon.initialY, emoticon.initialY + Math.random() * 100 - 50, emoticon.initialY]
               }}
               transition={{ 
-                duration: 4 + Math.random() * 2, // Varied duration for realism
+                duration: 4 + Math.random() * 2, 
                 repeat: Infinity,
                 delay: index * 0.3
               }}
               className="absolute text-2xl md:text-3xl"
               style={{
-                // Position emoticons using percentage for distribution
                 left: `${50 + (index % 2 === 0 ? -1 : 1) * (20 + index * 5)}%`,
                 top: `${40 + (index % 3) * 10}%`
               }}
@@ -202,11 +226,11 @@ const HappyTeachersDay = () => {
         </div>
       )}
 
-      {/* --- Corner Background Decorations (Static) --- */}
-      <div className="absolute bottom-4 left-4 text-4xl opacity-100 text-blue-500/50">📖</div>
-      <div className="absolute top-4 right-4 text-4xl opacity-100 text-yellow-500/50">🎓</div>
-      <div className="absolute top-10 left-10 text-3xl opacity-100 text-green-500/50">📝</div>
-      <div className="absolute bottom-10 right-10 text-3xl opacity-100 text-pink-500/50">✏️</div>
+      {/* Background decorations */}
+      <div className="absolute bottom-4 left-4 text-4xl opacity-100">📖</div>
+      <div className="absolute top-4 right-4 text-4xl opacity-100">🎓</div>
+      <div className="absolute top-10 left-10 text-3xl opacity-100">📝</div>
+      <div className="absolute bottom-10 right-10 text-3xl opacity-100">✏️</div>
     </div>
   );
 };
