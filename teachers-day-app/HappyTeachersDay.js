@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import peerLogo from './assets/peer logo.jpg'; // Adjust path if needed
-import schoolLogo from './assets/tcc-logo.png'; // Adjust path if needed
+import peerLogo from './assets/peer logo.jpg'; 
+import schoolLogo from './assets/tcc-logo.png'; 
 
 const HappyTeachersDay = () => {
   const message = "    Happy Teachers Day  Sir A";
@@ -10,21 +10,20 @@ const HappyTeachersDay = () => {
   const [emoticonsVisible, setEmoticonsVisible] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
 
-  const schoolLogoUrl = schoolLogo; // <-- Replace here (Placeholder used for safety)
-  const orgLogoUrl = peerLogo;       // <-- Replace here (Placeholder used for safety)
+  const schoolLogoUrl = schoolLogo; 
+  const orgLogoUrl = peerLogo;       
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (lettersVisible < message.length) {
         setLettersVisible(lettersVisible + 1);
       } else {
-        // Once the message is complete
         setLogoVisible(true);
         setTimeout(() => {
           setEmoticonsVisible(true);
-        }, 500); // Wait a bit after logos appear to show emoticons
+        }, 500); 
       }
-    }, 150); // Speed of letter-by-letter typing
+    }, 150); 
     return () => clearTimeout(timer);
   }, [lettersVisible, message.length]);
 
@@ -40,8 +39,7 @@ const HappyTeachersDay = () => {
   ];
 
   return (
-<div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
-  {/* Smoke effects remain here */}
+<div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">  {/* Smoke effects remain here */}
       {/* Smoke effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/80 to-purple-400/80 rounded-full filter blur-3xl animate-pulse"></div>
@@ -196,10 +194,10 @@ const HappyTeachersDay = () => {
       )}
 
       {/* Background decorations */}
-      <div className="absolute bottom-4 left-4 text-4xl opacity-20">📖</div>
-      <div className="absolute top-4 right-4 text-4xl opacity-20">🎓</div>
-      <div className="absolute top-10 left-10 text-3xl opacity-20">📝</div>
-      <div className="absolute bottom-10 right-10 text-3xl opacity-20">✏️</div>
+      <div className="absolute bottom-4 left-4 text-4xl opacity-100">📖</div>
+      <div className="absolute top-4 right-4 text-4xl opacity-100">🎓</div>
+      <div className="absolute top-10 left-10 text-3xl opacity-100">📝</div>
+      <div className="absolute bottom-10 right-10 text-3xl opacity-100">✏️</div>
     </div>
   );
 };

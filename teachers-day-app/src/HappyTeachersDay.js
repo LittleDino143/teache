@@ -47,8 +47,7 @@ const HappyTeachersDay = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      
+<div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">      
       {/* --- Smoke/Gradient Effects --- */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/80 to-purple-400/80 rounded-full filter blur-3xl animate-pulse"></div>
@@ -204,10 +203,10 @@ const HappyTeachersDay = () => {
       )}
 
       {/* --- Corner Background Decorations (Static) --- */}
-      <div className="absolute bottom-4 left-4 text-4xl opacity-20 text-blue-500/50">📖</div>
-      <div className="absolute top-4 right-4 text-4xl opacity-20 text-yellow-500/50">🎓</div>
-      <div className="absolute top-10 left-10 text-3xl opacity-20 text-green-500/50">📝</div>
-      <div className="absolute bottom-10 right-10 text-3xl opacity-20 text-pink-500/50">✏️</div>
+      <div className="absolute bottom-4 left-4 text-4xl opacity-100 text-blue-500/50">📖</div>
+      <div className="absolute top-4 right-4 text-4xl opacity-100 text-yellow-500/50">🎓</div>
+      <div className="absolute top-10 left-10 text-3xl opacity-100 text-green-500/50">📝</div>
+      <div className="absolute bottom-10 right-10 text-3xl opacity-100 text-pink-500/50">✏️</div>
     </div>
   );
 };
