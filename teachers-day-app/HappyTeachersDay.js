@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import peerLogo from './assets/peer logo.jpg'; 
 import schoolLogo from './assets/tcc-logo.png'; 
+import bgMusic from './assets/taylorswift.mp3';
+
+// Import your professor icon images
+import profIconLeft from './assets/prof1.jpg';
+import profIconRight from './assets/prof2.jpg';
 
 const HappyTeachersDay = () => {
   const message = "    Happy Teachers Day  Sir A";
@@ -9,6 +14,9 @@ const HappyTeachersDay = () => {
   const [lettersVisible, setLettersVisible] = useState(0);
   const [emoticonsVisible, setEmoticonsVisible] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
+
+  // Optional: Use a ref to control volume on mount
+  const audioRef = useRef(null); 
 
   const schoolLogoUrl = schoolLogo; 
   const orgLogoUrl = peerLogo;       
@@ -27,6 +35,13 @@ const HappyTeachersDay = () => {
     return () => clearTimeout(timer);
   }, [lettersVisible, message.length]);
 
+  // Set default volume (optional, can remove if not needed)
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2; // Set volume to 20%
+    }
+  }, []);
+
   const floatingEmoticons = [
     { icon: "📚", initialX: -50, initialY: -20 },
     { icon: "🍎", initialX: 50, initialY: -40 },
@@ -39,7 +54,28 @@ const HappyTeachersDay = () => {
   ];
 
   return (
-<div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">  {/* Smoke effects remain here */}
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Background music */}
+      <audio ref={audioRef} autoPlay loop>
+        <source src={bgMusic} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      {/* Professor icons row */}
+      <div className="flex flex-row justify-between items-center w-full max-w-xs mb-6 z-20 relative">
+        <img
+          src={profIconLeft}
+          alt="Professor Left"
+          className="w-16 h-16 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+        />
+        <div className="flex-1" /> {/* Spacer */}
+        <img
+          src={profIconRight}
+          alt="Professor Right"
+          className="w-16 h-16 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+        />
+      </div>
+
       {/* Smoke effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/80 to-purple-400/80 rounded-full filter blur-3xl animate-pulse"></div>
@@ -102,7 +138,6 @@ const HappyTeachersDay = () => {
         {/* Subtitle */}
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
-          // The delay is calculated based on the message length * typing speed + a little extra
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: message.length * 0.15 + 0.5, duration: 0.8 }}
           className="text-xl md:text-2xl text-blue-700 mb-8 font-semibold"
@@ -170,19 +205,17 @@ const HappyTeachersDay = () => {
                 y: emoticon.initialY
               }}
               animate={{ 
-                opacity: [0, 1, 0], // Fade in, stay visible, fade out
-                // Simple random float motion for a gentle float
+                opacity: [0, 1, 0],
                 x: [emoticon.initialX, emoticon.initialX + Math.random() * 100 - 50, emoticon.initialX],
                 y: [emoticon.initialY, emoticon.initialY + Math.random() * 100 - 50, emoticon.initialY]
               }}
               transition={{ 
-                duration: 4 + Math.random() * 2, // Varied duration for realism
+                duration: 4 + Math.random() * 2, 
                 repeat: Infinity,
                 delay: index * 0.3
               }}
               className="absolute text-2xl md:text-3xl"
               style={{
-                // Position emoticons using percentage for distribution
                 left: `${50 + (index % 2 === 0 ? -1 : 1) * (20 + index * 5)}%`,
                 top: `${40 + (index % 3) * 10}%`
               }}
