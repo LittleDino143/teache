@@ -66,13 +66,13 @@ const HappyTeachersDay = () => {
         <img
           src={profIconLeft}
           alt="Professor Left"
-          className="w-20 h-20 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+          className="w-16 h-16 rounded-full border-2 border-blue-400 shadow-lg object-cover"
         />
         <div className="flex-1" /> {/* Spacer */}
         <img
           src={profIconRight}
           alt="Professor Right"
-          className="w-20 h-20 rounded-full border-4 border-blue-400 shadow-lg object-cover"
+          className="w-16 h-16 rounded-full border-2 border-blue-400 shadow-lg object-cover"
         />
       </div>
 
